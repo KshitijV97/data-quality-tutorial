@@ -35,6 +35,7 @@ from common.survey_profile import (  # noqa: E402
     AGE_RANGE, HOURS_MAX, MISSING_TOKENS, SATISFACTION_RANGE, RunLog,
     canonical_dept, canonical_tool, ids, is_blank, profile_raw,
 )
+from common.cleaning import unique_respondents  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 WORKBOOK = REPO_ROOT / "data" / "AI_Workplace_Survey (Activity Datasheet) (1).xlsx"
@@ -45,19 +46,6 @@ log = RunLog()
 
 
 # --------------------------------------------------------------------------
-def unique_respondents(p):
-    """Drop exact duplicate rows and the near-duplicate re-entries."""
-    near_copies = {id(b) for _, b in p.near_dupes}
-    seen, keep = set(), []
-    for r in p.records:
-        key = tuple(r.values.values())
-        if key in seen or id(r) in near_copies:
-            continue
-        seen.add(key)
-        keep.append(r)
-    return keep
-
-
 def num(v):
     return v if isinstance(v, (int, float)) and not isinstance(v, bool) else None
 
