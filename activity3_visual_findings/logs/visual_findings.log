@@ -1,0 +1,50 @@
+visual_findings.py run log
+Run at   : 2026-11-11 09:23:16
+Source   : data/AI_Workplace_Survey (Activity Datasheet) (1).xlsx (read-only)
+Clean respondents: 60 (from 67 raw rows)
+
+==============================================================================
+CANDIDATE SCREENING - relationships considered before choosing
+==============================================================================
+r(hours_per_week_ai, satisfaction) [AI users] = -0.03  (n=35)
+r(age, hours_per_week_ai) [AI users] = -0.13  (n=40)
+r(age, satisfaction) [everyone] = +0.05  (n=47)
+r(years_experience, satisfaction) [everyone] = -0.14  (n=48)
+mean satisfaction by ai_tool [everyone]: None 3.80 (n=10); Gemini 3.67 (n=3); Copilot 3.67 (n=9); Claude 3.17 (n=6); ChatGPT 3.14 (n=22)
+mean satisfaction by department [everyone]: Computer Science 3.82 (n=11); Business 3.71 (n=7); Education 3.71 (n=14); Engineering 3.11 (n=9); Health Sciences 2.71 (n=7); (blank) 1.50 (n=2)
+mean satisfaction by job_level [everyone]: Manager 3.85 (n=13); Mid 3.50 (n=12); Entry 3.27 (n=11); Senior 3.00 (n=14)
+mean hours_per_week_ai by ai_tool [AI users]: ChatGPT 10.43 (n=21); Claude 7.62 (n=8); Copilot 6.64 (n=11); Gemini 5.00 (n=3)
+mean hours_per_week_ai by department [AI users]: (blank) 11.00 (n=2); Engineering 9.78 (n=9); Education 9.17 (n=12); Health Sciences 9.00 (n=4); Business 7.71 (n=7); Computer Science 6.44 (n=9)
+
+==============================================================================
+FINDING 1 - satisfaction by training status (AI users)
+==============================================================================
+AI users: 48; excluded: 12 non-users, 3 with 'unknown' training, 8 with missing satisfaction
+Completed AI training    n=18 (of 23 in group)  ratings {1: 2, 2: 1, 3: 4, 4: 5, 5: 6}  satisfied(4-5) 11 = 61%  dissatisfied(1-2) 3 = 17%  mean 3.67
+No AI training           n=19 (of 22 in group)  ratings {1: 5, 2: 3, 3: 4, 4: 5, 5: 2}  satisfied(4-5) 7 = 37%  dissatisfied(1-2) 8 = 42%  mean 2.79
+Gap in % satisfied: 24 percentage points
+Fisher exact test, satisfied vs not, trained vs not: p = 0.19 (not significant at 0.05)
+One person = 5.6 pts (trained) / 5.3 pts (not trained)
+Training by department: Business 3/7 trained; Computer Science 5/10 trained; Education 6/13 trained; Engineering 6/8 trained; Health Sciences 3/5 trained; None 0/2 trained
+Training by job_level: Entry 3/6 trained; Manager 7/13 trained; Mid 7/12 trained; Senior 6/14 trained
+Training by ai_tool: ChatGPT 10/22 trained; Claude 5/8 trained; Copilot 6/11 trained; Gemini 2/4 trained
+Mean AI hours/week: trained 9.7 (n=22) vs not trained 6.9 (n=19)
+Non-users who still gave a satisfaction rating: 10 (mean 3.80) - what were they rating?
+
+==============================================================================
+FINDING 2 - main AI tool share
+==============================================================================
+ChatGPT       25   41.7%
+Copilot       11   18.3%
+Claude         8   13.3%
+Gemini         4    6.7%
+No AI tool    12   20.0%
+Total 60
+
+==============================================================================
+OUTPUTS
+==============================================================================
+activity3_visual_findings/figures/finding1_training_satisfaction.png
+activity3_visual_findings/figures/finding2_tool_share.png
+activity3_visual_findings/visual_findings.xlsx
+activity3_visual_findings/logs/visual_findings.log
