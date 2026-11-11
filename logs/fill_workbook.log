@@ -1,0 +1,462 @@
+fill_workbook.py run log
+Run at     : 2026-11-11 09:06:34
+Python     : 3.14.6  |  openpyxl 3.1.5
+Workbook   : AI_Workplace_Survey (Activity Datasheet) (1).xlsx
+Output     : AI_Workplace_Survey (Activity Datasheet) (1).xlsx
+Sheets     : ['Instructions', 'Raw Data', 'Task 1 - Inspect', 'Task 2 - Dictionary', 'Task 3 - Issues', 'Task 4 - Privacy']
+
+==============================================================================
+PROFILE OF 'Raw Data'
+==============================================================================
+Data rows: 67  |  header columns: 16  |  distinct people after de-duplication: 60
+Extra (undocumented) columns: [('f 35', 'N'), ('f54', 'O'), ('f54-2', 'P')]
+  non-empty extra cell N2 = 60 (respondent 1001)
+
+Blank cells per column:
+  age                    3  -> 1010, 1019, 1034
+  department             2  -> 1031, 1033
+  satisfaction           9  -> 1002, 1008, 1017, 1020, 1023, 1041, 1049, 1051, 1059
+  (columns not listed have no blank cells)
+
+Exact duplicate rows (all 13 fields identical):
+  respondent 1009: rows 10, 53
+  respondent 1037: rows 39, 51
+  respondent 1053: rows 58, 68
+  respondent 1056: rows 61, 62
+Repeated respondent_id values: [1009, 1037, 1053, 1056]
+Near-duplicates (same person, different ID, upper-cased name/email):
+  1505 (row 34) duplicates 1005 (row 6)  [SOFIA MEHTA / SOFIA.MEHTA@EXAMPLE.COM]
+  1550 (row 55) duplicates 1050 (row 54)  [MARC NGUYEN / MARC.NGUYEN@EXAMPLE.COM]
+  1552 (row 63) duplicates 1052 (row 57)  [GABRIEL HADDAD / GABRIEL.HADDAD@EXAMPLE.COM]
+
+Age outside (16, 80): 1059 (row 66) values=[250]
+years_experience sentinel/negative: 1001 (row 2), 1038 (row 40) values=[-999, -999]
+years_experience implausible for age: none
+Plausibility flag - Manager aged <26 with 0-1 yrs experience: 1011 (row 12), 1012 (row 13), 1048 (row 50)
+job_level values: {'Mid': 18, 'Entry': 13, 'Senior': 19, 'Manager': 17}
+
+ai_tool raw values: {"'Claude'": 11, "'COPILOT '": 1, "'None'": 12, "'ChatGPT'": 25, "'chat gpt'": 1, "'Gemini'": 5, "'Copilot'": 11, "'chatgpt'": 1}
+  'Copilot' written 2 ways: ["'COPILOT '", "'Copilot'"]
+  'ChatGPT' written 3 ways: ["'ChatGPT'", "'chat gpt'", "'chatgpt'"]
+
+hours_per_week_ai text with units: [('1001 (row 2)', '12 hrs'), ('1054 (row 59)', '12 hrs')]
+hours_per_week_ai 'N/A': 1027 (row 28), 1030 (row 31), 1042 (row 44), 1055 (row 60)
+hours_per_week_ai > 168: [('1034 (row 36)', 400)]
+hours_per_week_ai cells typed as text: 6 of 67
+
+satisfaction outside (1, 5): [('1057 (row 64)', 9)]
+training_completed values: {'Yes': 31, 'No': 33, 'unknown': 3}
+department raw values: {'Computer Science': 13, 'Health Sciences': 7, 'Engineering': 12, 'Business': 10, 'Education': 19, 'EDUCATION': 1, 'business': 1, 'Eng.': 1, 'computer science ': 1}
+  'Computer Science' written 2 ways: ["'Computer Science'", "'computer science '"]
+  'Engineering' written 2 ways: ["'Eng.'", "'Engineering'"]
+  'Business' written 2 ways: ["'Business'", "'business'"]
+  'Education' written 2 ways: ["'EDUCATION'", "'Education'"]
+
+response_date formats:
+  YYYY-MM-DD        64  e.g. '2026-10-28' 
+  Mon DD, YYYY       1  e.g. 'Oct 23, 2026' -> 1002 (row 3)
+  MM/DD/YYYY         2  e.g. '10/23/2026' -> 1030 (row 31), 1051 (row 56)
+  date range: 2026-10-01 to 2026-10-30; ambiguous day/month: none
+
+Postal codes failing 'A1A 1A1': none  |  distinct FSAs: 10
+Emails failing pattern: none  |  email local part != name: none
+ALL-CAPS names: 1505 (row 34), 1550 (row 55), 1552 (row 63)
+
+==============================================================================
+CELL CHANGES (old -> new)
+==============================================================================
+[Task 1 - Inspect] C4  REPLACED
+    old: 'one student’s use of Ai hours_per_week_ai '
+    new: 'One survey response from one employee about their use of AI tools at work (not a student). Each row should be one unique respondent keyed by respondent_id, but that is not true yet: of 67 rows, 4 are exact repeats and 3 are the same person re-entered under a new ID, leaving 60 distinct people.'
+[Task 1 - Inspect] C5  REPLACED
+    old: 'student info'
+    new: "Identifiers: respondent_id (row key), full_name, email (contact/linking only, not analysis).\nRespondent profile: age, postal_code (home area), department, job_level, years_experience - used to compare groups.\nAI use (the variables we would actually study): ai_tool (main tool, 'None' = no tool), hours_per_week_ai, satisfaction (1-5 rating), training_completed (Yes/No).\nAdmin: response_date (when the survey was submitted).\nPlus 3 unlabelled columns ('f 35', 'f54', 'f54-2') with no documented purpose."
+[Task 1 - Inspect] C6  REPLACED
+    old: 'some NAs hours_per_week_ai some uknowns training_completed department  years_experience -999 age 250'
+    new: "Blank cells: age 3; department 2; satisfaction 9.\nHidden missing values (look filled but are not): years_experience = -999 (1001, 1038); hours_per_week_ai = 'N/A' (1027, 1030, 1042, 1055); training_completed = 'unknown' (1016, 1027, 1047).\nMissing documentation: no codebook, so we do not know the satisfaction scale direction, the period 'hours per week' refers to, how 'None' differs from blank, or how respondents were sampled."
+[Task 1 - Inspect] C7  REPLACED
+    old: '12 hrs, Oct 23, 2026'
+    new: "Duplicates: repeated IDs [1009, 1037, 1053, 1056]; re-entries 1505=1005, 1550=1050, 1552=1052 (new ID = original + 500, ALL-CAPS name/email).\nOut of range: age 250 (1059); hours 400 (1034) (a week has 168 h); satisfaction 9 (1057) on a 1-5 scale.\nWrong type: hours as text '12 hrs' (1001), '12 hrs' (1054).\nInconsistent labels: ai_tool 'COPILOT ', 'Copilot'; 'ChatGPT', 'chat gpt', 'chatgpt'; department 'Computer Science', 'computer science '; 'Eng.', 'Engineering'; 'Business', 'business'; 'EDUCATION', 'Education'.\nMixed date formats: Mon DD, YYYY e.g. 'Oct 23, 2026' (1002); MM/DD/YYYY e.g. '10/23/2026' (1030, 1051); all dates stored as text.\nImplausible: Managers aged 21-25 with 0-1 years' experience (1011, 1012, 1048)."
+[Task 1 - Inspect] C8  REPLACED
+    old: 'can we clean the incosnistent entries '
+    new: "1. A codebook: definition and units of each column, satisfaction scale (is 1 or 5 best?), hours reference period, meaning of 'None', blank, 'N/A', 'unknown' and -999.\n2. Are the 15xx IDs and the repeated IDs re-submissions or export errors? Which copy is correct?\n3. Correct values for age 250, 400 hours and satisfaction 9 (typos such as 25 / 40 / ?).\n4. What the unlabelled columns 'f 35', 'f54', 'f54-2' are, and the value 60 in one of them.\n5. How and when the survey was collected (sampling, population, date window, mandatory questions) so we know whom the results represent.\n6. Consent and ethics terms: may the data be used for research, and do we need names, emails and postal codes at all?"
+[Task 2 - Dictionary] B4  REPLACED
+    old: 'Primary key'
+    new: 'Survey-assigned ID for each respondent; the key that should identify one row.'
+[Task 2 - Dictionary] C4  UNCHANGED
+    new: 'Number'
+[Task 2 - Dictionary] D4  REPLACED
+    old: 'Unique Integer'
+    new: 'Unique positive integer, one per person (observed 1001-1060). Used as a label, never in arithmetic.'
+[Task 2 - Dictionary] E4  REPLACED
+    old: 'Potential duplicates'
+    new: 'Repeated IDs [1009, 1037, 1053, 1056] (exact duplicate rows); out-of-sequence IDs 1505, 1550, 1552 are copies of other people (original ID + 500).'
+[Task 2 - Dictionary] B5  REPLACED
+    old: 'Name of user'
+    new: "Respondent's first and last name."
+[Task 2 - Dictionary] C5  UNCHANGED
+    new: 'Text'
+[Task 2 - Dictionary] D5  REPLACED
+    old: 'Full name of user'
+    new: "'First Last' in normal capitalisation; one person per name."
+[Task 2 - Dictionary] E5  REPLACED
+    old: 'Non string values, Or strings that arent names'
+    new: 'ALL-CAPS duplicates (1505, 1550, 1552). Direct identifier: not needed for analysis.'
+[Task 2 - Dictionary] B6  REPLACED
+    old: 'Email address of user'
+    new: "Respondent's contact email address."
+[Task 2 - Dictionary] C6  UNCHANGED
+    new: 'Text'
+[Task 2 - Dictionary] D6  REPLACED
+    old: 'Should be valid email address, Pass the email regex'
+    new: 'Valid address, lower case, unique per person (pattern first.last@example.com).'
+[Task 2 - Dictionary] E6  REPLACED
+    old: 'Invalid email address that does not pass regex'
+    new: 'Upper-case copies (1505, 1550, 1552) defeat simple duplicate checks. Direct identifier.'
+[Task 2 - Dictionary] B7  REPLACED
+    old: 'Age of user'
+    new: "Respondent's age in completed years at the time of the survey."
+[Task 2 - Dictionary] C7  UNCHANGED
+    new: 'Number'
+[Task 2 - Dictionary] D7  REPLACED
+    old: 'Should be integer, less than 100'
+    new: 'Whole number in a working-age range (about 16-80).'
+[Task 2 - Dictionary] E7  REPLACED
+    old: 'Non integer value or negative value'
+    new: 'Blank for 1010, 1019, 1034; impossible value 250 (1059).'
+[Task 2 - Dictionary] B8  REPLACED
+    old: 'Valid postal code for country'
+    new: "Canadian postal code of the respondent's home or work location (all Ottawa 'K' codes)."
+[Task 2 - Dictionary] C8  UNCHANGED
+    new: 'Text'
+[Task 2 - Dictionary] D8  REPLACED
+    old: 'Should be "A0A 0A0" string format '
+    new: "Format 'A1A 1A1' (letter-digit-letter space digit-letter-digit)."
+[Task 2 - Dictionary] E8  REPLACED
+    old: 'Wrong format '
+    new: 'All 67 values are well-formed, but a full postal code narrows a person to a few streets: a privacy risk rather than a quality one.'
+[Task 2 - Dictionary] B9  REPLACED
+    old: 'Name of department'
+    new: 'Academic/organisational department the respondent works in.'
+[Task 2 - Dictionary] C9  REPLACED
+    old: 'Text'
+    new: 'Category'
+[Task 2 - Dictionary] D9  FILLED
+    new: 'One of: Business, Computer Science, Education, Engineering, Health Sciences.'
+[Task 2 - Dictionary] E9  FILLED
+    new: "Same department written differently ('Computer Science', 'computer science '; 'Eng.', 'Engineering'; 'Business', 'business'; 'EDUCATION', 'Education'); blank for 1031, 1033."
+[Task 2 - Dictionary] B10  REPLACED
+    old: 'Job level'
+    new: "Seniority of the respondent's position."
+[Task 2 - Dictionary] C10  REPLACED
+    old: 'Number'
+    new: 'Category'
+[Task 2 - Dictionary] D10  FILLED
+    new: 'Ordered category: Entry, Mid, Senior, Manager.'
+[Task 2 - Dictionary] E10  FILLED
+    new: "Text labels, not numbers. Order of 'Manager' vs 'Senior' is not defined; some Managers look implausible (aged <26 with 0-1 years' experience: 1011, 1012, 1048)."
+[Task 2 - Dictionary] B11  REPLACED
+    old: 'Job experience'
+    new: 'Number of years of work experience (in the field or at the organisation - not defined).'
+[Task 2 - Dictionary] C11  UNCHANGED
+    new: 'Number'
+[Task 2 - Dictionary] D11  FILLED
+    new: 'Whole number from 0 up to about (age - 16).'
+[Task 2 - Dictionary] E11  FILLED
+    new: '-999 used as a missing-value code (1001, 1038); would distort averages if treated as a number. Definition (career vs current job) is unclear.'
+[Task 2 - Dictionary] B12  FILLED
+    new: 'Main AI tool the respondent uses at work.'
+[Task 2 - Dictionary] C12  REPLACED
+    old: 'Text'
+    new: 'Category'
+[Task 2 - Dictionary] D12  FILLED
+    new: "One of: ChatGPT, Claude, Copilot, Gemini, None ('None' = uses no AI tool)."
+[Task 2 - Dictionary] E12  FILLED
+    new: "Same tool spelled several ways ('COPILOT ', 'Copilot'; 'ChatGPT', 'chat gpt', 'chatgpt'). Only one tool can be recorded per person."
+[Task 2 - Dictionary] B13  FILLED
+    new: 'Average hours per week the respondent spends using AI tools.'
+[Task 2 - Dictionary] C13  UNCHANGED
+    new: 'Number'
+[Task 2 - Dictionary] D13  FILLED
+    new: "Number of hours 0-168 (realistically 0-60); 0 when ai_tool = 'None'."
+[Task 2 - Dictionary] E13  FILLED
+    new: "Stored as text; units typed in ('12 hrs', '12 hrs'); 'N/A' for 1027, 1030, 1042, 1055; impossible 400 (1034)."
+[Task 2 - Dictionary] B14  FILLED
+    new: "Respondent's satisfaction with AI tools at work (rating scale)."
+[Task 2 - Dictionary] C14  UNCHANGED
+    new: 'Number'
+[Task 2 - Dictionary] D14  FILLED
+    new: 'Whole number 1-5 (ordinal; direction assumed 5 = most satisfied).'
+[Task 2 - Dictionary] E14  FILLED
+    new: '9 blanks; out-of-scale value 9 (1057). Scale labels are not documented.'
+[Task 2 - Dictionary] B15  FILLED
+    new: 'Whether the respondent has completed AI-tool training.'
+[Task 2 - Dictionary] C15  REPLACED
+    old: 'Text'
+    new: 'Category'
+[Task 2 - Dictionary] D15  REPLACED
+    old: 'String Yes or No'
+    new: "'Yes' or 'No'."
+[Task 2 - Dictionary] E15  FILLED
+    new: "'unknown' used instead of a blank (1016, 1027, 1047); unclear whether it means 'did not answer' or 'not sure'."
+[Task 2 - Dictionary] B16  FILLED
+    new: 'Date the respondent submitted the survey.'
+[Task 2 - Dictionary] C16  UNCHANGED
+    new: 'Date'
+[Task 2 - Dictionary] D16  REPLACED
+    old: 'YYYY-MM-DD Date string'
+    new: 'Real date in the survey window (observed 2026-10-01 to 2026-10-30), one format: YYYY-MM-DD.'
+[Task 2 - Dictionary] E16  FILLED
+    new: "Stored as text in mixed formats (Mon DD, YYYY e.g. 'Oct 23, 2026'; MM/DD/YYYY e.g. '10/23/2026'); MM/DD vs DD/MM can be ambiguous; text dates cannot be sorted or filtered by date."
+[Task 3 - Issues] B4  REPLACED
+    old: 'Malformed dates'
+    new: 'Malformed / mixed date formats, stored as text'
+[Task 3 - Issues] C4  UNCHANGED
+    new: 'response_date'
+[Task 3 - Issues] D4  FILLED
+    new: "1002 (row 3), 1030 (row 31), 1051 (row 56) - e.g. 'Oct 23, 2026', '10/23/2026', '10/28/2026'"
+[Task 3 - Issues] E4  FILLED
+    new: 'Text dates in several formats cannot be sorted, filtered or compared; MM/DD vs DD/MM can be misread, putting responses on the wrong day.'
+[Task 3 - Issues] F4  FILLED
+    new: 'Fix'
+[Task 3 - Issues] G4  FILLED
+    new: 'Convert every value to a real date in ISO YYYY-MM-DD. The intended date is recoverable: all responses fall in October 2026 and none are ambiguous (day > 12). Keep the original text in a separate column for traceability.'
+[Task 3 - Issues] B5  FILLED
+    new: 'Exact duplicate rows (same respondent_id repeated)'
+[Task 3 - Issues] C5  FILLED
+    new: 'All columns / respondent_id'
+[Task 3 - Issues] D5  FILLED
+    new: '1009 (rows 10 & 53); 1037 (rows 39 & 51); 1053 (rows 58 & 68); 1056 (rows 61 & 62)'
+[Task 3 - Issues] E5  FILLED
+    new: 'Double-counts those respondents, inflating n and biasing every average and percentage; breaks respondent_id as a unique key.'
+[Task 3 - Issues] F5  FILLED
+    new: 'Remove'
+[Task 3 - Issues] G5  FILLED
+    new: 'Every field is identical, so the copies add no information. Keep the first occurrence, delete the rest, and record how many rows were removed.'
+[Task 3 - Issues] B6  FILLED
+    new: 'Same person re-entered under a new ID with name/email in ALL CAPS'
+[Task 3 - Issues] C6  FILLED
+    new: 'respondent_id, full_name, email'
+[Task 3 - Issues] D6  FILLED
+    new: '1505 (row 34) = 1005 (row 6); 1550 (row 55) = 1050 (row 54); 1552 (row 63) = 1052 (row 57)'
+[Task 3 - Issues] E6  FILLED
+    new: "Hidden duplicates survive 'Remove Duplicates' because the ID and letter case differ, so the person is counted twice."
+[Task 3 - Issues] F6  FILLED
+    new: 'Remove'
+[Task 3 - Issues] G6  FILLED
+    new: 'All 12 other fields match the original exactly once case is ignored, and each new ID is the original + 500 - a pattern that suggests an export/re-import error. Remove the copies (1505, 1550, 1552), keep the originals, and confirm the pattern with the creator.'
+[Task 3 - Issues] B7  FILLED
+    new: 'Impossible or missing age'
+[Task 3 - Issues] C7  FILLED
+    new: 'age'
+[Task 3 - Issues] D7  FILLED
+    new: '1059 (row 66) age = 250; blank: 1010 (row 11), 1019 (row 20), 1034 (row 36)'
+[Task 3 - Issues] E7  FILLED
+    new: 'An age of 250 is impossible and would pull the mean age up by 3.3 years; blanks reduce the sample for any age analysis.'
+[Task 3 - Issues] F7  FILLED
+    new: 'Ask the creator'
+[Task 3 - Issues] G7  FILLED
+    new: 'We cannot tell whether 250 was meant to be 25, 50 or something else, so guessing would invent data. Until answered, set it to missing; keep the blanks as missing (do not fill with an average).'
+[Task 3 - Issues] B8  FILLED
+    new: '-999 used as a code for missing experience'
+[Task 3 - Issues] C8  FILLED
+    new: 'years_experience'
+[Task 3 - Issues] D8  FILLED
+    new: '1001 (row 2), 1038 (row 40) = -999, -999'
+[Task 3 - Issues] E8  FILLED
+    new: 'If read as numbers, the -999 codes drag mean experience down by 30 years and break any correlation with age or job level.'
+[Task 3 - Issues] F8  FILLED
+    new: 'Fix'
+[Task 3 - Issues] G8  FILLED
+    new: "-999 is a common 'no answer' code and cannot be a real number of years. Recode it to a true blank/NA so software treats it as missing; document the recoding."
+[Task 3 - Issues] B9  FILLED
+    new: 'Inconsistent ai_tool labels (case, spacing, spelling)'
+[Task 3 - Issues] C9  FILLED
+    new: 'ai_tool'
+[Task 3 - Issues] D9  FILLED
+    new: "Non-standard: 1002 'COPILOT ', 1008 'chat gpt', 1034 'chatgpt'"
+[Task 3 - Issues] E9  FILLED
+    new: "Counts by tool are split across spellings ('COPILOT ', 'Copilot'; 'ChatGPT', 'chat gpt', 'chatgpt'), so tool usage shares are wrong."
+[Task 3 - Issues] F9  FILLED
+    new: 'Fix'
+[Task 3 - Issues] G9  FILLED
+    new: "The variants clearly name the same product; standardise to one label each (ChatGPT, Copilot, Claude, Gemini, None) after trimming spaces. Keep 'None' as a real category meaning 'uses no AI tool', not as missing."
+[Task 3 - Issues] B10  FILLED
+    new: "Hours stored as text, with units or 'N/A'"
+[Task 3 - Issues] C10  FILLED
+    new: 'hours_per_week_ai'
+[Task 3 - Issues] D10  FILLED
+    new: "1001 (row 2) '12 hrs', 1054 (row 59) '12 hrs'; 'N/A': 1027 (row 28), 1030 (row 31), 1042 (row 44), 1055 (row 60)"
+[Task 3 - Issues] E10  FILLED
+    new: "6 of 67 cells hold text instead of numbers, so Excel cannot reliably sum or average the column; '12 hrs' and 'N/A' are silently dropped or cause errors."
+[Task 3 - Issues] F10  FILLED
+    new: 'Fix'
+[Task 3 - Issues] G10  FILLED
+    new: "'12 hrs' unambiguously means 12 - strip the unit and store as a number. 'N/A' becomes a true blank (these respondents do use a tool, so 'N/A' is not 0). Convert the column to a numeric type."
+[Task 3 - Issues] B11  FILLED
+    new: 'Impossible weekly hours value'
+[Task 3 - Issues] C11  FILLED
+    new: 'hours_per_week_ai'
+[Task 3 - Issues] D11  FILLED
+    new: '1034 (row 36) = 400'
+[Task 3 - Issues] E11  FILLED
+    new: 'A week only has 168 hours; this one value raises the mean weekly hours of the whole sample from 7.0 to 13.4.'
+[Task 3 - Issues] F11  FILLED
+    new: 'Ask the creator'
+[Task 3 - Issues] G11  FILLED
+    new: 'It may be a typo for 40 or 4.00, but we cannot know which. Treat it as missing in the meantime rather than guess, and ask the creator for the original response.'
+[Task 3 - Issues] B12  FILLED
+    new: 'Out-of-scale and missing satisfaction scores'
+[Task 3 - Issues] C12  FILLED
+    new: 'satisfaction'
+[Task 3 - Issues] D12  FILLED
+    new: '1057 (row 64) = 9; 9 blanks e.g. 1002 (row 3), 1008 (row 9), 1017 (row 18), 1020 (row 21), ... (+5 more)'
+[Task 3 - Issues] E12  FILLED
+    new: '9 is outside the 1-5 scale and inflates the average; 9 blanks (13% of rows) may bias results if unhappy users skipped the question.'
+[Task 3 - Issues] F12  FILLED
+    new: 'Ask the creator'
+[Task 3 - Issues] G12  FILLED
+    new: "We need the scale definition (is it 1-5? which end is 'satisfied'?) and whether the item was optional. Until then set 9 to missing, keep blanks as missing and report the response rate for this question."
+[Task 3 - Issues] B13  FILLED
+    new: "'unknown' used in a Yes/No field"
+[Task 3 - Issues] C13  FILLED
+    new: 'training_completed'
+[Task 3 - Issues] D13  FILLED
+    new: "1016 (row 17), 1027 (row 28), 1047 (row 49) = 'unknown'"
+[Task 3 - Issues] E13  FILLED
+    new: "A third category in a binary variable distorts the % trained; it is unclear if it means 'not answered' or 'not sure'."
+[Task 3 - Issues] F13  FILLED
+    new: 'Keep'
+[Task 3 - Issues] G13  FILLED
+    new: "We cannot convert 'unknown' to Yes or No without inventing data. Keep it as an explicit Unknown/missing category, exclude it from Yes/No percentages and report how many there are."
+[Task 3 - Issues] B14  FILLED
+    new: 'Inconsistent and missing department names'
+[Task 3 - Issues] C14  FILLED
+    new: 'department'
+[Task 3 - Issues] D14  FILLED
+    new: "'Computer Science', 'computer science '; 'Eng.', 'Engineering'; 'Business', 'business'; 'EDUCATION', 'Education'; blank: 1031 (row 32), 1033 (row 35)"
+[Task 3 - Issues] E14  FILLED
+    new: 'Group comparisons split one department into several (e.g. Education vs EDUCATION) and drop rows with blanks.'
+[Task 3 - Issues] F14  FILLED
+    new: 'Fix'
+[Task 3 - Issues] G14  FILLED
+    new: "Variants differ only in case, trailing spaces or abbreviation ('Eng.' = Engineering), so standardising is safe. Leave the 2 blanks as missing - do not guess a department."
+[Task 3 - Issues] B15  FILLED
+    new: 'Unlabelled extra columns outside the documented 13'
+[Task 3 - Issues] C15  FILLED
+    new: 'f 35, f54, f54-2'
+[Task 3 - Issues] D15  FILLED
+    new: 'N2 = 60 (respondent 1001)'
+[Task 3 - Issues] E15  FILLED
+    new: 'Columns with no documented meaning cannot be interpreted and may be leftovers from another export; a stray value could be mistaken for real data.'
+[Task 3 - Issues] F15  FILLED
+    new: 'Remove'
+[Task 3 - Issues] G15  FILLED
+    new: 'The instructions describe 13 columns; these 3 have no meaningful header and hold only 1 value in total. Drop them from the analysis copy and ask the creator what they were in case they matter.'
+[Task 4 - Privacy] B4  UNCHANGED
+    new: 'Direct identifier'
+[Task 4 - Privacy] C4  FILLED
+    new: "Unique per person and links each row to the name and email in this file (or in the creator's records), so anyone with the key can re-identify answers."
+[Task 4 - Privacy] D4  FILLED
+    new: 'Replace with a new random study ID before sharing; keep any lookup key separately and securely (or destroy it).'
+[Task 4 - Privacy] B5  REPLACED
+    old: 'Quasi-identifier'
+    new: 'Direct identifier'
+[Task 4 - Privacy] C5  FILLED
+    new: 'Names the person outright - the highest-risk field. (Correction: it is a direct, not a quasi-, identifier.)'
+[Task 4 - Privacy] D5  FILLED
+    new: 'Remove entirely; it is not needed for any analysis.'
+[Task 4 - Privacy] B6  UNCHANGED
+    new: 'Direct identifier'
+[Task 4 - Privacy] C6  FILLED
+    new: 'Uniquely identifies and allows contacting the person; also reveals their name.'
+[Task 4 - Privacy] D6  FILLED
+    new: 'Remove. If follow-up is needed, keep emails in a separate, access-controlled contact list.'
+[Task 4 - Privacy] B7  UNCHANGED
+    new: 'Quasi-identifier'
+[Task 4 - Privacy] C7  FILLED
+    new: 'Exact age combined with department, job level and postal code can single out one employee (e.g. the only 57-year-old Manager in Engineering).'
+[Task 4 - Privacy] D7  FILLED
+    new: 'Generalise into bands (e.g. 20-29, 30-39 ...); suppress very small groups.'
+[Task 4 - Privacy] B8  FILLED
+    new: 'Quasi-identifier'
+[Task 4 - Privacy] C8  FILLED
+    new: 'A full 6-character postal code covers only a few streets; 53 of 67 rows have a code no one else shares, so with age it can point to one household.'
+[Task 4 - Privacy] D8  FILLED
+    new: 'Remove, or keep only the first 3 characters (FSA) if location is needed for the research.'
+[Task 4 - Privacy] B9  FILLED
+    new: 'Quasi-identifier'
+[Task 4 - Privacy] C9  FILLED
+    new: 'Small departments make people stand out, especially combined with job level and age.'
+[Task 4 - Privacy] D9  FILLED
+    new: 'Keep only if needed; merge small departments or suppress groups with < 5 people in outputs.'
+[Task 4 - Privacy] B10  FILLED
+    new: 'Quasi-identifier'
+[Task 4 - Privacy] C10  FILLED
+    new: "Few people hold 'Manager' in a given department, so job level + department can identify someone."
+[Task 4 - Privacy] D10  FILLED
+    new: 'Keep for analysis but only report in combination with other fields when each group has >= 5 people; consider merging levels.'
+[Task 4 - Privacy] B11  FILLED
+    new: 'Quasi-identifier'
+[Task 4 - Privacy] C11  FILLED
+    new: 'Exact tenure (e.g. 35 years) is unusual and, with age, can identify a person to colleagues.'
+[Task 4 - Privacy] D11  FILLED
+    new: 'Generalise into bands (0-2, 3-5, 6-10, 11-20, 20+); top-code high values.'
+[Task 4 - Privacy] B12  FILLED
+    new: 'Low risk'
+[Task 4 - Privacy] C12  FILLED
+    new: 'Many people share each tool, so it rarely identifies anyone; could be sensitive only if an employer bans a tool.'
+[Task 4 - Privacy] D12  FILLED
+    new: 'Keep; check that rare tools do not create unique combinations with other fields.'
+[Task 4 - Privacy] B13  FILLED
+    new: 'Sensitive attribute'
+[Task 4 - Privacy] C13  FILLED
+    new: 'Could be used by an employer to judge productivity or policy compliance; harmful if linked back to a named employee.'
+[Task 4 - Privacy] D13  FILLED
+    new: 'Keep only in de-identified data; report as aggregates or bands, never alongside identifiers.'
+[Task 4 - Privacy] B14  FILLED
+    new: 'Sensitive attribute'
+[Task 4 - Privacy] C14  FILLED
+    new: 'An opinion about workplace tools; if linked to a person it could affect their standing with managers.'
+[Task 4 - Privacy] D14  FILLED
+    new: 'Keep only in de-identified data; report aggregates for groups of >= 5.'
+[Task 4 - Privacy] B15  FILLED
+    new: 'Sensitive attribute'
+[Task 4 - Privacy] C15  FILLED
+    new: 'Shows whether an employee complied with (possibly mandatory) training - could lead to consequences if identifiable.'
+[Task 4 - Privacy] D15  FILLED
+    new: 'Keep in de-identified data; report only group-level completion rates.'
+[Task 4 - Privacy] B16  FILLED
+    new: 'Quasi-identifier'
+[Task 4 - Privacy] C16  FILLED
+    new: 'Exact submission date can be matched to who was in the office or emailed that day, narrowing down respondents in small groups.'
+[Task 4 - Privacy] D16  FILLED
+    new: 'Generalise to week or month, or drop if timing is not part of the research question.'
+[Task 4 - Privacy] B21  FILLED
+    new: 'De-identify before analysis: delete full_name and email, replace respondent_id with a new random study ID, and store any linking key separately under restricted access.'
+[Task 4 - Privacy] C21  FILLED
+    new: "No direct identifiers remain in the analysis file; the key (if kept) is encrypted and only the data steward can open it; a search of the file for '@' or names returns nothing."
+[Task 4 - Privacy] B22  FILLED
+    new: 'Generalise quasi-identifiers: age and years_experience into bands, postal code to the first 3 characters (or removed), response_date to month.'
+[Task 4 - Privacy] C22  FILLED
+    new: 'Check k-anonymity: every combination of age band, department, job level and postal area should contain at least 5 people; merge or suppress categories that do not.'
+[Task 4 - Privacy] B23  FILLED
+    new: 'Share and publish aggregates only - no row-level data - and suppress any table cell based on fewer than 5 respondents.'
+[Task 4 - Privacy] C23  FILLED
+    new: 'Review every table/chart before release for small cells, and make sure two tables cannot be subtracted to reveal one person.'
+[Task 4 - Privacy] B24  FILLED
+    new: "Confirm consent and ethics: check the survey's consent wording and get research-ethics (REB) approval before reusing the data; restrict access to the project team on secure storage."
+[Task 4 - Privacy] C24  FILLED
+    new: 'Respondents agreed to research use; REB approval or exemption is documented; files sit on institution-approved storage with access logged; a retention/deletion date is set.'
+
+==============================================================================
+SUMMARY
+==============================================================================
+Cells written: 176  ({'replaced': 31, 'unchanged': 13, 'filled': 132})
+  Task 1 - Inspect       5 cells
+  Task 2 - Dictionary    52 cells
+  Task 3 - Issues        72 cells
+  Task 4 - Privacy       47 cells
+Dropdown cells validated against each sheet's list validation: OK
+'Raw Data' unchanged (sha256 228799820fc681b4...): OK
+Saved: AI_Workplace_Survey (Activity Datasheet) (1).xlsx
