@@ -14,6 +14,10 @@ common/
 activity1_know_your_dataset/
   fill_workbook.py         fills Task 1-4 sheets in the workbook
   logs/fill_workbook.log   run log: profile + every cell changed (old -> new)
+activity2_largest_issue/
+  largest_issue.py         ranks issues, applies the cleaning decision, measures the bias
+  final_note.md            the team's write-up and the two-sentence final note
+  logs/largest_issue.log   run log with every number used in the note
 ```
 
 ## Setup
@@ -39,3 +43,17 @@ sheet's validation list, and refuses to save if `Raw Data` would change.
 
 The original workbook, including the team's first notes, is in the git history
 (commit `ae3a171`).
+
+## Activity 2 – The single largest data-quality issue
+
+```bash
+python3 activity2_largest_issue/largest_issue.py
+```
+
+Reads `Raw Data` only (it never writes to the workbook). After removing
+duplicate respondents, it ranks every issue by how many people it makes
+unusable, picks the largest (missing or out-of-scale `satisfaction`, 10 of 60
+respondents), applies the cleaning decision (complete-case analysis, no
+imputation), and checks who gets dropped and how far the mean could move.
+It regenerates [`final_note.md`](activity2_largest_issue/final_note.md) so the
+numbers in the note always match the data.
