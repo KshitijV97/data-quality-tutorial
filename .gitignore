@@ -1,0 +1,17 @@
+# macOS
+.DS_Store
+
+# Excel lock/temp files
+~$*
+*.tmp
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Editors
+.vscode/
+.idea/
